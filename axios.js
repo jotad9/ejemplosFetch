@@ -5,10 +5,32 @@ let datos={
     body: "This is a body"
 
 }
+
+let token= "myToken";
+
+axios.interceptors.request.use(config=>{
+    config.headers.Authorization=`Bearer ${token}`;
+    return config;
+    }, error=>{
+        return Promise.reject(error);
+    }
+);
+
+//Interceptores de respuesta
+axios.interceptors.response.use(
+    response=>{
+        response.data.customField="Este es un nuevo campo";
+        return response;
+    }, error=>{
+    return Promise.reject(error);
+});
+
+
+
 // axios.post("https://jsonplaceholder.typicode.com/posts",datos)
 //     .then(response => console.log(response.data))
 //     .catch(error => console.log(error));
-let token= "myToken";
+
 
 
 let pedido1=axios.get("https://jsonplaceholder.typicode.com/posts/1");
